@@ -11,5 +11,8 @@ import com.ecm.web_services.entities.User;
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-	
+	/*
+	 * JpaRepository already has its implementation and there is no
+	 * need to implement any methods here!
+	 */
 }
