@@ -13,26 +13,30 @@ import com.ecm.web_services.repositories.UserRepository;
 import com.ecm.web_services.services.exceptions.DatabaseException;
 import com.ecm.web_services.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class UserService {
 	@Autowired
 	private UserRepository repository;
-	
+
 	public List<User> findAll() {
 		return repository.findAll();
 	}
-	
+
 	public User findById(Long id) {
 		Optional<User> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
-	
+
 	public User insert(User obj) {
 		return repository.save(obj);
 	}
-	
+
 	public void delete(Long id) {
 		try {
+			if (!repository.existsById(id))
+				throw new ResourceNotFoundException(id);
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
 			throw new ResourceNotFoundException(id);
@@ -40,11 +44,15 @@ public class UserService {
 			throw new DatabaseException(e.getMessage());
 		}
 	}
-	
+
 	public User update(Long id, User obj) {
-		User entity = repository.getReferenceById(id);
-		updateData(entity, obj);
-		return repository.save(entity);
+		try {
+			User entity = repository.getReferenceById(id);
+			updateData(entity, obj);
+			return repository.save(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException(id);
+		}
 	}
 
 	private void updateData(User entity, User obj) {
