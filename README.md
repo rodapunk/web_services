@@ -9,7 +9,7 @@ For the application execution, the Apache Tomcat web container was adopted, and 
 It is worth noting that considerations regarding the production environment, such as the possibility of migrating to a relational database (e.g., PostgreSQL) and using the Heroku platform for application deployment, are perspectives for future implementations and were not carried out during the execution of this project. These options are suggested to enhance scalability and availability in a production environment.
 
 # Domain model
-![Domain model](https://github.com/rodapunk/assets/blob/main/web_services/modelo_conceitual.png)
+![Domain model](https://github.com/rodapunk/assets/blob/main/web_services.png)
 
 # Technologies Used
 - Java
